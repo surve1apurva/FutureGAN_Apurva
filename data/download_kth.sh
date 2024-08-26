@@ -1,7 +1,8 @@
 #!/bin/bash
+# makes them in current directory
 mkdir ./kth
 cd ./kth
-
+# goes to location and downloads file to current directory
 wget http://www.nada.kth.se/cvap/actions/walking.zip
 wget http://www.nada.kth.se/cvap/actions/jogging.zip
 wget http://www.nada.kth.se/cvap/actions/running.zip
