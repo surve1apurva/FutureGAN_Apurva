@@ -35,13 +35,40 @@ def load_dataset(mode = "train"):
 
 
 # helper functions
+
+# normalises the pixel values : leads to fast convergence , better performance , better results 
 def arr_from_img(im, shift=0):
     w, h = im.size
     arr = im.getdata()
     c = np.product(arr.size) // (w*h)
-    return np.asarray(arr, dtype=np.float32).reshape((h, w, c)).transpose(2, 1, 0) / 255. - shift
+    return np.asarray(arr, dtype=np.float32).reshape((h, w, c)).transpose(2, 1, 0) / 255. - shift   #transpose to channel width height as many pytorch applications require that
 
-
+# Randomly selects and returns images from a given dataset based on specified IDs.
+    #
+    # Parameters:
+    # dataset : dict
+    #     A dictionary where the keys are IDs and the values are lists of images associated with each ID.
+    #     Example: { 'id1': [image1, image2, ...], 'id2': [image1, image2, ...], ... }
+    #
+    # size_list : dict
+    #     A dictionary where each key corresponds to an ID, and the value is the total number of images available for that ID.
+    #     Example: { 'id1': 10, 'id2': 15, ... }
+    #
+    # id_list : list
+    #     A list of IDs for which random images are to be selected from the dataset.
+    #     Example: ['id1', 'id2']
+    #
+    # Returns:
+    # images : list
+    #     A list of randomly selected images corresponding to the IDs in `id_list`.
+    #
+    # Example Usage:
+    # dataset = { '1': [img1, img2, img3], '2': [img4, img5, img6] }
+    # size_list = { '1': 3, '2': 3 }
+    # id_list = ['1', '2']
+    #
+    # random_images = get_random_images(dataset, size_list, id_list)
+    # # random_images might return [img2, img5] (randomly selected from the dataset)
 def get_random_images(dataset, size_list, id_list):
     images = []
     for id in id_list:
